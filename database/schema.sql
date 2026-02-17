@@ -109,7 +109,7 @@ VALUES (
     'aldp',
     'condiciones-detencion-2026',
     'Encuesta Condiciones de Detención y Derechos',
-    'Encuesta anónima sobre condiciones de detención y derechos para mujeres privadas de libertad.',
+    'Encuesta anónima sobre condiciones de detención y derechos para mujeres en situación de cárcel.',
     'La encuesta es anónima y confidencial: no se pedirá tu nombre ni datos que te identifiquen.\n\nPodés responder solo las preguntas que quieras; no estás obligada a contestar nada que te haga sentir mal.\n\nLas respuestas se usarán para mejorar las condiciones en los centros penitenciarios y defender tus derechos.\n\nHay un espacio al final para escribir lo que quieras agregar.',
     1
 );
@@ -150,7 +150,7 @@ SET @seccion_id = LAST_INSERT_ID();
 
 -- Pregunta 1: Golpes o fuerza física
 INSERT INTO preguntas (seccion_id, codigo, texto, tipo, requerida, orden)
-VALUES (@seccion_id, 'violencia_fisica_conocida', '¿Conocés algún caso de golpes o uso de fuerza física por parte del personal penitenciario contra una mujer privada de libertad?', 'radio', 0, 1);
+VALUES (@seccion_id, 'violencia_fisica_conocida', '¿Conocés algún caso de golpes o uso de fuerza física por parte del personal penitenciario contra una mujer en situación de cárcel?', 'radio', 0, 1);
 
 SET @pregunta_id = LAST_INSERT_ID();
 
@@ -162,7 +162,7 @@ INSERT INTO opciones (pregunta_id, valor, texto, orden) VALUES
 
 -- Pregunta 2: Abuso sexual
 INSERT INTO preguntas (seccion_id, codigo, texto, tipo, requerida, orden)
-VALUES (@seccion_id, 'abuso_sexual_conocido', '¿Conocés algún caso de abuso sexual (tocamientos o penetración no consentida) por parte del personal penitenciario contra una mujer privada de libertad?', 'radio', 0, 2);
+VALUES (@seccion_id, 'abuso_sexual_conocido', '¿Conocés algún caso de abuso sexual (tocamientos o penetración no consentida) por parte del personal penitenciario contra una mujer en situación de cárcel?', 'radio', 0, 2);
 
 SET @pregunta_id = LAST_INSERT_ID();
 
@@ -174,7 +174,7 @@ INSERT INTO opciones (pregunta_id, valor, texto, orden) VALUES
 
 -- Pregunta 3: Requisa vejatoria
 INSERT INTO preguntas (seccion_id, codigo, texto, tipo, requerida, orden)
-VALUES (@seccion_id, 'requisa_vejatoria_conocida', '¿Conocés algún caso de requisa vejatoria por parte del personal penitenciario contra una mujer privada de libertad?', 'radio', 0, 3);
+VALUES (@seccion_id, 'requisa_vejatoria_conocida', '¿Conocés algún caso de requisa vejatoria por parte del personal penitenciario contra una mujer en situación de cárcel?', 'radio', 0, 3);
 
 SET @pregunta_id = LAST_INSERT_ID();
 
@@ -186,7 +186,7 @@ INSERT INTO opciones (pregunta_id, valor, texto, orden) VALUES
 
 -- Pregunta 4: Violencia verbal
 INSERT INTO preguntas (seccion_id, codigo, texto, tipo, requerida, orden)
-VALUES (@seccion_id, 'violencia_verbal_conocida', '¿Conocés algún caso de violencia verbal por parte del personal penitenciario contra una mujer privada de libertad?', 'radio', 0, 4);
+VALUES (@seccion_id, 'violencia_verbal_conocida', '¿Conocés algún caso de violencia verbal por parte del personal penitenciario contra una mujer en situación de cárcel?', 'radio', 0, 4);
 
 SET @pregunta_id = LAST_INSERT_ID();
 
