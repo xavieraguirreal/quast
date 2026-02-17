@@ -164,6 +164,22 @@ $baseUrl = rtrim(dirname($_SERVER["SCRIPT_NAME"]), "/");
             font-size: 0.95rem;
         }
 
+        .download-link {
+            display: inline-block;
+            margin-top: 16px;
+            padding: 8px 16px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            transition: background 0.2s;
+        }
+
+        .download-link:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -339,6 +355,7 @@ $baseUrl = rtrim(dirname($_SERVER["SCRIPT_NAME"]), "/");
         <div class="results-header">
             <h1>Resultados de la Encuesta</h1>
             <p><?= htmlspecialchars($encuesta['titulo']) ?></p>
+            <a href="<?= $baseUrl ?>/descargar.php?t=<?= htmlspecialchars($tenant) ?>&e=<?= htmlspecialchars($codigo) ?>" class="download-link">Descargar datos</a>
         </div>
 
         <div class="stats-grid">
@@ -367,6 +384,9 @@ $baseUrl = rtrim(dirname($_SERVER["SCRIPT_NAME"]), "/");
         foreach ($preguntas as $pregunta):
             // Saltar edad (ya mostrada en stats)
             if ($pregunta['codigo'] === 'edad') continue;
+
+            // Saltar preguntas de texto libre (se descargan aparte)
+            if ($pregunta['tipo'] === 'textarea') continue;
 
             // Nueva sección
             if ($seccionActual !== $pregunta['seccion_numero']):

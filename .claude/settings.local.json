@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(powershell -Command \"$word = New-Object -ComObject Word.Application; $doc = $word.Documents.Open\\(''D:\\\\OJOACTUAL\\\\Documents\\\\encuesta.docx''\\); $doc.Content.Text; $doc.Close\\(\\); $word.Quit\\(\\)\")",
+      "Bash(powershell:*)",
+      "Bash(copy \"D:\\\\OJOACTUAL\\\\Documents\\\\encuesta.docx\" \"E:\\\\appEncuestas\\\\encuesta_temp.docx\")",
+      "Bash(cmd /c copy \"D:\\\\OJOACTUAL\\\\Documents\\\\encuesta.docx\" \"E:\\\\appEncuestas\\\\encuesta_temp.docx\")",
+      "Bash(git init:*)",
+      "Bash(git remote add:*)",
+      "Bash(git branch:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nInicial: Sistema de encuestas anónimas multitenant\n\n- Estructura de base de datos multitenant con soporte para múltiples encuestas\n- Encuesta completa de condiciones de detención para cliente ALDP\n- Frontend mobile-first responsive\n- API para guardar respuestas de forma anónima\n- Soporte para URLs amigables via .htaccess\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git push:*)",
+      "Bash(git remote set-url:*)",
+      "Bash(git commit:*)"
+    ]
+  }
+}

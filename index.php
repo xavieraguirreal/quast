@@ -206,6 +206,16 @@ foreach ($rows as $row) {
                                       rows="<?= $pregunta['config']['rows'] ?? 4 ?>"
                                       placeholder="<?= htmlspecialchars($pregunta['config']['placeholder'] ?? '') ?>"
                                       <?= $pregunta['requerida'] ? 'required' : '' ?>></textarea>
+
+                        <?php elseif ($pregunta['tipo'] === 'select'): ?>
+                            <select name="pregunta_<?= $pregunta['id'] ?>"
+                                    class="input-field select-field"
+                                    <?= $pregunta['requerida'] ? 'required' : '' ?>>
+                                <option value="">Seleccioná una opción</option>
+                                <?php foreach ($pregunta['opciones'] as $opcion): ?>
+                                    <option value="<?= $opcion['id'] ?>"><?= htmlspecialchars($opcion['texto']) ?></option>
+                                <?php endforeach; ?>
+                            </select>
                         <?php endif; ?>
                     </div>
                     <?php endforeach; ?>
