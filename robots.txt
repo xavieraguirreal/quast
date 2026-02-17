@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /api/
+Disallow: /descargar.php
+Disallow: /config.php
+
+Sitemap: https://quast.verumax.com/sitemap.xml

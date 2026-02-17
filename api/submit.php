@@ -85,8 +85,8 @@ try {
                     $textoAdicional
                 ]);
             }
-        } elseif ($tipo === 'radio') {
-            // Una opción
+        } elseif ($tipo === 'radio' || $tipo === 'select') {
+            // Una opción (radio o select)
             $opcionId = (int)$value;
             $stmtDetalle->execute([
                 $respuestaId,

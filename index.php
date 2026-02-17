@@ -76,16 +76,24 @@ foreach ($rows as $row) {
     }
 }
 ?>
+<?php $baseUrl = rtrim(dirname($_SERVER["SCRIPT_NAME"]), "/"); ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="<?= htmlspecialchars($encuesta['descripcion']) ?>">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#6366f1">
+    <meta property="og:title" content="<?= htmlspecialchars($encuesta['titulo']) ?>">
+    <meta property="og:description" content="<?= htmlspecialchars($encuesta['descripcion']) ?>">
+    <meta property="og:type" content="website">
     <title><?= htmlspecialchars($encuesta['titulo']) ?></title>
+    <link rel="icon" type="image/svg+xml" href="<?= $baseUrl ?>/favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="<?= rtrim(dirname($_SERVER["SCRIPT_NAME"]), "/") ?>/css/style.css">
+    <link rel="stylesheet" href="<?= $baseUrl ?>/css/style.css">
 </head>
 <body>
     <div class="container">
@@ -272,7 +280,7 @@ foreach ($rows as $row) {
                         </svg>
                         Completar otra vez
                     </button>
-                    <a href="<?= rtrim(dirname($_SERVER["SCRIPT_NAME"]), "/") ?>/resultados.php?t=<?= htmlspecialchars($tenant) ?>&e=<?= htmlspecialchars($codigo) ?>" class="btn-primary">
+                    <a href="<?= $baseUrl ?>/resultados.php?t=<?= htmlspecialchars($tenant) ?>&e=<?= htmlspecialchars($codigo) ?>" class="btn-primary">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
                         </svg>
@@ -284,8 +292,8 @@ foreach ($rows as $row) {
     </div>
 
     <script>
-        const BASE_URL = '<?= rtrim(dirname($_SERVER["SCRIPT_NAME"]), "/") ?>';
+        const BASE_URL = '<?= $baseUrl ?>';
     </script>
-    <script src="<?= rtrim(dirname($_SERVER["SCRIPT_NAME"]), "/") ?>/js/app.js"></script>
+    <script src="<?= $baseUrl ?>/js/app.js"></script>
 </body>
 </html>
