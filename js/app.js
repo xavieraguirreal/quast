@@ -31,6 +31,17 @@ document.addEventListener('DOMContentLoaded', function() {
     // Form submit
     document.getElementById('survey-form').addEventListener('submit', handleSubmit);
 
+    // Prevenir envío con Enter (excepto en última sección)
+    document.getElementById('survey-form').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') {
+            e.preventDefault();
+            // Si no es la última sección, avanzar
+            if (currentSection < totalSections - 1) {
+                nextSection();
+            }
+        }
+    });
+
     // Actualizar progress inicial
     updateProgress();
 });
