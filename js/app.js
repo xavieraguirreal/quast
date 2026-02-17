@@ -109,6 +109,9 @@ function validateSection(section) {
         } else if (tipo === 'textarea') {
             const textarea = q.querySelector(`textarea[name="pregunta_${preguntaId}"]`);
             hasValue = textarea && textarea.value.trim() !== '';
+        } else if (tipo === 'select') {
+            const select = q.querySelector(`select[name="pregunta_${preguntaId}"]`);
+            hasValue = select && select.value !== '';
         }
 
         if (!hasValue) {
