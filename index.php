@@ -254,6 +254,21 @@ foreach ($rows as $row) {
                 <h1>¡Gracias!</h1>
                 <p>Tu respuesta fue enviada correctamente.</p>
                 <p class="small">Tu participación es muy valiosa para mejorar las condiciones y defender los derechos de todas.</p>
+
+                <div class="thank-you-buttons">
+                    <button type="button" class="btn-secondary" onclick="location.reload()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                        </svg>
+                        Completar otra vez
+                    </button>
+                    <a href="<?= rtrim(dirname($_SERVER["SCRIPT_NAME"]), "/") ?>/resultados.php?t=<?= htmlspecialchars($tenant) ?>&e=<?= htmlspecialchars($codigo) ?>" class="btn-primary">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                        </svg>
+                        Ver resultados
+                    </a>
+                </div>
             </div>
         </div>
     </div>

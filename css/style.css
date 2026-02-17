@@ -468,6 +468,17 @@ body {
     font-size: 0.9rem;
 }
 
+.thank-you-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 32px;
+}
+
+.thank-you-buttons a {
+    text-decoration: none;
+}
+
 /* Loading State */
 .btn-primary.loading {
     pointer-events: none;
