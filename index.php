@@ -85,7 +85,7 @@ foreach ($rows as $row) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="<?= rtrim(dirname($_SERVER["SCRIPT_NAME"]), "/") ?>/css/style.css">
 </head>
 <body>
     <div class="container">
@@ -258,6 +258,9 @@ foreach ($rows as $row) {
         </div>
     </div>
 
-    <script src="/js/app.js"></script>
+    <script>
+        const BASE_URL = '<?= rtrim(dirname($_SERVER["SCRIPT_NAME"]), "/") ?>';
+    </script>
+    <script src="<?= rtrim(dirname($_SERVER["SCRIPT_NAME"]), "/") ?>/js/app.js"></script>
 </body>
 </html>

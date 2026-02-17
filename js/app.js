@@ -147,7 +147,7 @@ async function handleSubmit(e) {
     formData.append('encuesta_id', e.target.dataset.encuestaId);
 
     try {
-        const response = await fetch('/api/submit.php', {
+        const response = await fetch(BASE_URL + '/api/submit.php', {
             method: 'POST',
             body: formData
         });
