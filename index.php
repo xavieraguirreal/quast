@@ -103,9 +103,9 @@ foreach ($rows as $row) {
                 <div class="instructions-box">
                     <h3>Antes de comenzar:</h3>
                     <ul>
-                        <?php foreach(explode("\n", $encuesta['instrucciones']) as $instruccion): ?>
+                        <?php foreach(preg_split('/\n\s*\n/', $encuesta['instrucciones']) as $instruccion): ?>
                             <?php if(trim($instruccion)): ?>
-                                <li><?= htmlspecialchars(trim($instruccion)) ?></li>
+                                <li><?= htmlspecialchars(trim(preg_replace('/\s+/', ' ', $instruccion))) ?></li>
                             <?php endif; ?>
                         <?php endforeach; ?>
                     </ul>
