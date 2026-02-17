@@ -1,0 +1,557 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #6366f1;
+    --primary-dark: #4f46e5;
+    --primary-light: #a5b4fc;
+    --success: #10b981;
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --text: #1e293b;
+    --text-light: #64748b;
+    --border: #e2e8f0;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    --radius: 12px;
+}
+
+html {
+    font-size: 16px;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    min-height: 100vh;
+}
+
+/* Screens */
+.screen {
+    display: none;
+    min-height: 100vh;
+}
+
+.screen.active {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Intro Screen */
+#intro-screen {
+    padding: 24px;
+    justify-content: center;
+}
+
+.intro-content {
+    text-align: center;
+}
+
+.logo-circle {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    color: white;
+}
+
+.logo-circle svg {
+    width: 40px;
+    height: 40px;
+}
+
+.intro-content h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--text);
+}
+
+.subtitle {
+    color: var(--text-light);
+    margin-bottom: 32px;
+    font-size: 0.95rem;
+}
+
+.instructions-box {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 20px;
+    text-align: left;
+    margin-bottom: 32px;
+    box-shadow: var(--shadow);
+}
+
+.instructions-box h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--primary);
+}
+
+.instructions-box ul {
+    list-style: none;
+}
+
+.instructions-box li {
+    padding: 8px 0;
+    padding-left: 24px;
+    position: relative;
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+.instructions-box li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 14px;
+    width: 8px;
+    height: 8px;
+    background: var(--primary-light);
+    border-radius: 50%;
+}
+
+/* Buttons */
+.btn-primary, .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 28px;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-secondary {
+    background: var(--card);
+    color: var(--text);
+    border: 2px solid var(--border);
+}
+
+.btn-secondary:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.btn-large {
+    width: 100%;
+    padding: 18px 32px;
+    font-size: 1.1rem;
+}
+
+.btn-primary svg, .btn-secondary svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* Progress Bar */
+.progress-bar {
+    height: 4px;
+    background: var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--success));
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+.progress-text {
+    text-align: center;
+    padding: 12px;
+    font-size: 0.85rem;
+    color: var(--text-light);
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+}
+
+/* Section */
+.section {
+    padding: 24px;
+    padding-bottom: 100px;
+}
+
+.section-header {
+    margin-bottom: 28px;
+}
+
+.section-number {
+    display: inline-block;
+    background: var(--primary-light);
+    color: var(--primary-dark);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.section-header h2 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.section-description {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    line-height: 1.7;
+}
+
+.section-description strong {
+    color: var(--text);
+}
+
+.section-description ul {
+    margin-top: 12px;
+    padding-left: 20px;
+}
+
+.section-description li {
+    margin-bottom: 8px;
+}
+
+/* Questions */
+.questions {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+.question {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+}
+
+.question-label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 16px;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.required {
+    color: #ef4444;
+}
+
+/* Options */
+.options-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.option-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px;
+    background: var(--bg);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 2px solid transparent;
+    flex-wrap: wrap;
+}
+
+.option-card:hover {
+    background: #f1f5f9;
+}
+
+.option-card:has(input:checked) {
+    border-color: var(--primary);
+    background: rgba(99, 102, 241, 0.05);
+}
+
+.option-card input[type="radio"],
+.option-card input[type="checkbox"] {
+    display: none;
+}
+
+.option-indicator {
+    width: 22px;
+    height: 22px;
+    border: 2px solid var(--border);
+    border-radius: 50%;
+    flex-shrink: 0;
+    position: relative;
+    transition: all 0.2s;
+    margin-top: 1px;
+}
+
+.option-card.checkbox .option-indicator {
+    border-radius: 6px;
+}
+
+.option-card:has(input:checked) .option-indicator {
+    border-color: var(--primary);
+    background: var(--primary);
+}
+
+.option-card:has(input:checked) .option-indicator::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    background: white;
+    border-radius: 50%;
+}
+
+.option-card.checkbox:has(input:checked) .option-indicator::after {
+    width: 12px;
+    height: 12px;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 13l4 4L19 7'/%3E%3C/svg%3E") center/contain no-repeat;
+    border-radius: 0;
+}
+
+.option-text {
+    flex: 1;
+    font-size: 0.95rem;
+    color: var(--text);
+}
+
+.texto-adicional {
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px 14px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    transition: border-color 0.2s;
+}
+
+.texto-adicional:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.texto-adicional:disabled {
+    background: #f8fafc;
+    cursor: not-allowed;
+}
+
+/* Input Fields */
+.input-field {
+    width: 100%;
+    padding: 14px 18px;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background: var(--bg);
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+    background: white;
+}
+
+.input-field.textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.input-field::placeholder {
+    color: var(--text-light);
+}
+
+/* Navigation Buttons */
+.nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+}
+
+.nav-buttons button {
+    flex: 1;
+}
+
+/* Thank You Screen */
+#thank-you-screen {
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+    text-align: center;
+}
+
+.thank-you-content {
+    max-width: 400px;
+}
+
+.success-icon {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(135deg, var(--success), #059669);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 32px;
+    color: white;
+    animation: scaleIn 0.5s ease;
+}
+
+.success-icon svg {
+    width: 50px;
+    height: 50px;
+}
+
+@keyframes scaleIn {
+    0% { transform: scale(0); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.thank-you-content h1 {
+    font-size: 2rem;
+    margin-bottom: 16px;
+    color: var(--success);
+}
+
+.thank-you-content p {
+    color: var(--text-light);
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+}
+
+.thank-you-content .small {
+    font-size: 0.9rem;
+}
+
+/* Loading State */
+.btn-primary.loading {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.btn-primary.loading::after {
+    content: '';
+    width: 20px;
+    height: 20px;
+    border: 2px solid transparent;
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin-left: 8px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Error styles */
+.question.error {
+    border: 2px solid #ef4444;
+}
+
+.error-message {
+    color: #ef4444;
+    font-size: 0.85rem;
+    margin-top: 8px;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .section {
+        padding: 16px;
+        padding-bottom: 100px;
+    }
+
+    .question {
+        padding: 16px;
+    }
+
+    .option-card {
+        padding: 12px 14px;
+    }
+
+    .btn-primary, .btn-secondary {
+        padding: 12px 20px;
+        font-size: 0.95rem;
+    }
+
+    .intro-content h1 {
+        font-size: 1.3rem;
+    }
+}
+
+/* Safe area for notch devices */
+@supports (padding: max(0px)) {
+    .section {
+        padding-bottom: max(100px, env(safe-area-inset-bottom) + 80px);
+    }
+}
+
+/* Dark mode support (optional) */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #0f172a;
+        --card: #1e293b;
+        --text: #f1f5f9;
+        --text-light: #94a3b8;
+        --border: #334155;
+    }
+
+    .option-card:hover {
+        background: #334155;
+    }
+
+    .input-field {
+        background: #1e293b;
+        color: var(--text);
+    }
+
+    .input-field:focus {
+        background: #1e293b;
+    }
+}

@@ -1,0 +1,18 @@
+# Archivos sensibles con credenciales
+config.php
+
+# Archivos temporales
+*.tmp
+*.temp
+encuesta_temp.docx
+extract_docx.ps1
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo

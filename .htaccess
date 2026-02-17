@@ -1,0 +1,20 @@
+# Seguridad básica
+Options -Indexes
+
+# Proteger archivos sensibles
+<FilesMatch "^(config\.php|\.htaccess)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Forzar UTF-8
+AddDefaultCharset UTF-8
+
+# Rewrite para URLs amigables (opcional)
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # Redirigir /aldp/encuesta-nombre a index.php con parámetros
+    RewriteRule ^([a-z0-9-]+)/([a-z0-9-]+)/?$ index.php?t=$1&e=$2 [L,QSA]
+</IfModule>
