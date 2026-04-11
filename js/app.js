@@ -240,8 +240,12 @@ function validateSection(section) {
         // No validar preguntas ocultas (depends_on no activo)
         if (q.style.display === 'none') return;
 
+        // Subpregunta condicional visible: es obligatoria al haberse activado
+        const isConditionalVisible = q.dataset.dependsOn !== undefined;
+
         // Verificar si es requerida
-        const isRequired = q.querySelector('[required]') !== null ||
+        const isRequired = isConditionalVisible ||
+                          q.querySelector('[required]') !== null ||
                           q.querySelector('.required') !== null;
 
         if (!isRequired) return;
@@ -302,10 +306,27 @@ function handleDependsOn(inputEl) {
 
         dep.style.display = show ? '' : 'none';
 
-        // Clear values when hiding
+        // Mostrar/ocultar asterisco de obligatoria
+        const label = dep.querySelector('.question-label');
+        if (label) {
+            let mark = label.querySelector('.required-dynamic');
+            if (show && !mark) {
+                mark = document.createElement('span');
+                mark.className = 'required required-dynamic';
+                mark.textContent = ' *';
+                label.appendChild(mark);
+            } else if (!show && mark) {
+                mark.remove();
+            }
+        }
+
+        // Clear values and error state when hiding
         if (!show) {
             dep.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(i => i.checked = false);
             dep.querySelectorAll('input[type="text"], input[type="number"], textarea, select').forEach(i => i.value = '');
+            dep.classList.remove('error');
+            const err = dep.querySelector('.error-message');
+            if (err) err.remove();
         }
     });
 }
