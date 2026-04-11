@@ -359,7 +359,9 @@ $baseUrl = rtrim(dirname($_SERVER["SCRIPT_NAME"]), "/");
         <div class="results-header">
             <h1>Resultados de la Encuesta</h1>
             <p><?= htmlspecialchars($encuesta['titulo']) ?></p>
+            <?php if ($tenant !== 'semillero-udea'): ?>
             <a href="<?= $baseUrl ?>/descargar.php?t=<?= htmlspecialchars($tenant) ?>&e=<?= htmlspecialchars($codigo) ?>" class="download-link">Descargar datos</a>
+            <?php endif; ?>
         </div>
 
         <div class="stats-grid">
