@@ -25,6 +25,16 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (cb !== this) cb.checked = false;
                 });
             }
+
+            // Manejar subpreguntas condicionales (depends_on)
+            handleDependsOn(this);
+        });
+    });
+
+    // Manejar radios con depends_on
+    document.querySelectorAll('.option-card input[type="radio"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            handleDependsOn(this);
         });
     });
 
@@ -143,6 +153,33 @@ function validateSection(section) {
     }
 
     return valid;
+}
+
+function handleDependsOn(inputEl) {
+    const parentQuestion = inputEl.closest('.question');
+    if (!parentQuestion) return;
+    const parentCodigo = parentQuestion.dataset.codigo;
+    if (!parentCodigo) return;
+
+    // Get all checked values in this parent question
+    const checkedValores = new Set();
+    parentQuestion.querySelectorAll('input:checked').forEach(ci => {
+        if (ci.dataset.opcionValor) checkedValores.add(ci.dataset.opcionValor);
+    });
+
+    // Show/hide dependent questions
+    document.querySelectorAll(`[data-depends-on^="${parentCodigo}:"]`).forEach(dep => {
+        const requiredValue = dep.dataset.dependsOn.split(':')[1];
+        const show = checkedValores.has(requiredValue);
+
+        dep.style.display = show ? '' : 'none';
+
+        // Clear values when hiding
+        if (!show) {
+            dep.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(i => i.checked = false);
+            dep.querySelectorAll('input[type="text"], input[type="number"], textarea, select').forEach(i => i.value = '');
+        }
+    });
 }
 
 async function handleSubmit(e) {

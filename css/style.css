@@ -12,10 +12,73 @@
     --bg: #f8fafc;
     --card: #ffffff;
     --text: #1e293b;
-    --text-light: #64748b;
+    --text-light: #475569;
     --border: #e2e8f0;
     --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
     --radius: 12px;
+}
+
+/* Header */
+.quast-header {
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.header-inner {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header-brand {
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: -0.5px;
+}
+
+.header-tenant {
+    font-size: 0.85rem;
+    opacity: 0.85;
+    font-weight: 500;
+}
+
+/* Footer */
+.quast-footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 0.8rem;
+    color: var(--text-light);
+    border-top: 1px solid var(--border);
+    background: var(--card);
+}
+
+.quast-footer a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.quast-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Conditional questions */
+.question[data-depends-on] {
+    border-left: 3px solid var(--primary-light);
+    margin-left: 12px;
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 html {
@@ -186,7 +249,7 @@ body {
     height: 4px;
     background: var(--border);
     position: sticky;
-    top: 0;
+    top: 48px;
     z-index: 100;
 }
 

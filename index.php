@@ -96,6 +96,14 @@ foreach ($rows as $row) {
     <link rel="stylesheet" href="<?= $baseUrl ?>/css/style.css">
 </head>
 <body>
+    <!-- Header -->
+    <header class="quast-header">
+        <div class="header-inner">
+            <span class="header-brand">Quast</span>
+            <span class="header-tenant"><?= htmlspecialchars($encuesta['tenant_nombre']) ?></span>
+        </div>
+    </header>
+
     <div class="container">
         <!-- Pantalla de inicio -->
         <div id="intro-screen" class="screen active">
@@ -149,7 +157,12 @@ foreach ($rows as $row) {
 
                 <div class="questions">
                     <?php foreach ($seccion['preguntas'] as $pregunta): ?>
-                    <div class="question" data-pregunta-id="<?= $pregunta['id'] ?>" data-tipo="<?= $pregunta['tipo'] ?>">
+                    <?php
+                        $dependsOn = $pregunta['config']['depends_on'] ?? null;
+                        $dependsAttr = $dependsOn ? ' data-depends-on="' . htmlspecialchars($dependsOn) . '"' : '';
+                        $dependsStyle = $dependsOn ? ' style="display:none"' : '';
+                    ?>
+                    <div class="question" data-pregunta-id="<?= $pregunta['id'] ?>" data-codigo="<?= htmlspecialchars($pregunta['codigo']) ?>" data-tipo="<?= $pregunta['tipo'] ?>"<?= $dependsAttr ?><?= $dependsStyle ?>>
                         <label class="question-label">
                             <?= htmlspecialchars($pregunta['texto']) ?>
                             <?php if ($pregunta['requerida']): ?>
@@ -164,6 +177,7 @@ foreach ($rows as $row) {
                                     <input type="radio"
                                            name="pregunta_<?= $pregunta['id'] ?>"
                                            value="<?= $opcion['id'] ?>"
+                                           data-opcion-valor="<?= htmlspecialchars($opcion['valor']) ?>"
                                            <?= $pregunta['requerida'] ? 'required' : '' ?>>
                                     <span class="option-indicator"></span>
                                     <span class="option-text"><?= htmlspecialchars($opcion['texto']) ?></span>
@@ -178,6 +192,7 @@ foreach ($rows as $row) {
                                     <input type="checkbox"
                                            name="pregunta_<?= $pregunta['id'] ?>[]"
                                            value="<?= $opcion['id'] ?>"
+                                           data-opcion-valor="<?= htmlspecialchars($opcion['valor']) ?>"
                                            data-permite-texto="<?= $opcion['permite_texto_adicional'] ?>">
                                     <span class="option-indicator"></span>
                                     <span class="option-text"><?= htmlspecialchars($opcion['texto']) ?></span>
@@ -290,6 +305,11 @@ foreach ($rows as $row) {
             </div>
         </div>
     </div>
+
+    <!-- Footer -->
+    <footer class="quast-footer">
+        <span>Quast &middot; Encuestas verificadas por <a href="https://verumax.com" target="_blank" rel="noopener">VERUMax</a></span>
+    </footer>
 
     <script>
         const BASE_URL = '<?= $baseUrl ?>';
