@@ -202,6 +202,7 @@ function nextSection() {
     currentSection++;
     const nextSec = document.querySelector(`.section[data-section="${currentSection}"]`);
     nextSec.style.display = 'block';
+    animateSectionEnter(nextSec);
 
     updateProgress();
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -214,9 +215,16 @@ function prevSection() {
     currentSection--;
     const prevSec = document.querySelector(`.section[data-section="${currentSection}"]`);
     prevSec.style.display = 'block';
+    animateSectionEnter(prevSec);
 
     updateProgress();
     window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function animateSectionEnter(section) {
+    section.classList.remove('section-enter');
+    void section.offsetWidth;
+    section.classList.add('section-enter');
 }
 
 function updateProgress() {

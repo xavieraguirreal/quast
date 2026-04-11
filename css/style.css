@@ -637,7 +637,72 @@ body {
     margin-top: 8px;
 }
 
-/* Responsive */
+/* Word-wrap defensivo (textos largos sin espacios) */
+.question-label,
+.option-text,
+.section-header h2,
+.section-description {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+}
+
+.input-field,
+.select-field {
+    max-width: 100%;
+}
+
+/* Animacion de entrada de seccion */
+.section-enter {
+    animation: sectionEnter 0.35s ease-out;
+}
+
+@keyframes sectionEnter {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .section-enter,
+    .edit-banner,
+    .question[data-depends-on] {
+        animation: none;
+    }
+}
+
+/* Responsive: pantallas muy pequenas (<360px) */
+@media (max-width: 360px) {
+    .header-inner {
+        padding: 12px 14px;
+    }
+
+    .header-tenant {
+        font-size: 0.75rem;
+        max-width: 140px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .section {
+        padding: 14px;
+        padding-bottom: 100px;
+    }
+
+    .question {
+        padding: 14px;
+    }
+
+    .question-label {
+        font-size: 0.95rem;
+    }
+
+    .option-text {
+        font-size: 0.9rem;
+    }
+}
+
+/* Responsive: mobile (<=480px) */
 @media (max-width: 480px) {
     .section {
         padding: 16px;
@@ -671,6 +736,67 @@ body {
     .intro-content h1 {
         font-size: 1.3rem;
     }
+
+    .section-header h2 {
+        font-size: 1.2rem;
+    }
+}
+
+/* Responsive: tablet y desktop (>=768px) */
+@media (min-width: 768px) {
+    .container {
+        max-width: 720px;
+    }
+
+    .header-inner {
+        max-width: 720px;
+        padding: 16px 24px;
+    }
+
+    .section {
+        padding: 32px;
+    }
+
+    .question {
+        padding: 24px;
+    }
+
+    .question-label {
+        font-size: 1.05rem;
+    }
+
+    .section-header h2 {
+        font-size: 1.6rem;
+    }
+
+    .intro-content h1 {
+        font-size: 1.8rem;
+    }
+}
+
+/* =============================
+   Identidad: SEMILLERO UdeA
+   ============================= */
+body[data-tenant="semillero-udea"] {
+    --primary: #0f766e;
+    --primary-dark: #115e59;
+    --primary-light: #99f6e4;
+}
+
+body[data-tenant="semillero-udea"] .question {
+    border-left: 4px solid var(--primary);
+}
+
+body[data-tenant="semillero-udea"] .progress-fill {
+    background: linear-gradient(90deg, var(--primary), #14b8a6);
+}
+
+body[data-tenant="semillero-udea"] .option-card:has(input:checked) {
+    background: rgba(15, 118, 110, 0.06);
+}
+
+body[data-tenant="semillero-udea"] .input-field:focus {
+    box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.12);
 }
 
 /* Safe area for notch devices */

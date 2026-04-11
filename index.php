@@ -95,7 +95,7 @@ foreach ($rows as $row) {
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?= $baseUrl ?>/css/style.css">
 </head>
-<body>
+<body data-tenant="<?= htmlspecialchars($tenant) ?>">
     <!-- Header -->
     <header class="quast-header">
         <div class="header-inner">
