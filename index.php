@@ -2,7 +2,7 @@
 require_once 'config.php';
 
 // Obtener parámetros
-$tenant = isset($_GET['t']) ? $_GET['t'] : 'aldp';
+$tenant = getTenant('aldp');
 $codigo = isset($_GET['e']) ? $_GET['e'] : 'condiciones-detencion-2026';
 
 $db = getDB();

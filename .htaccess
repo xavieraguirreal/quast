@@ -15,9 +15,21 @@ AddDefaultCharset UTF-8
     RewriteEngine On
     RewriteBase /
 
-    # Redirigir /tenant/ a listado de encuestas
+    # Dominios personalizados (ej: encuestas.sajur.org)
+    # / -> listado de encuestas (tenant se detecta por dominio)
+    RewriteCond %{HTTP_HOST} !^quast\.verumax\.com$ [NC]
+    RewriteRule ^$ lista.php [L,QSA]
+
+    # /encuesta-nombre -> index.php (tenant se detecta por dominio)
+    RewriteCond %{HTTP_HOST} !^quast\.verumax\.com$ [NC]
+    RewriteCond %{REQUEST_URI} !^/(api|css|js|favicon) [NC]
+    RewriteRule ^([a-z0-9-]+)/?$ index.php?e=$1 [L,QSA]
+
+    # Dominio principal (quast.verumax.com)
+    # /tenant/ -> listado de encuestas
+    RewriteCond %{HTTP_HOST} ^quast\.verumax\.com$ [NC]
     RewriteRule ^([a-z0-9-]+)/?$ lista.php?t=$1 [L,QSA]
 
-    # Redirigir /tenant/encuesta-nombre a encuesta específica
+    # /tenant/encuesta-nombre -> encuesta específica
     RewriteRule ^([a-z0-9-]+)/([a-z0-9-]+)/?$ index.php?t=$1&e=$2 [L,QSA]
 </IfModule>

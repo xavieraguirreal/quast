@@ -1,10 +1,10 @@
 <?php
 require_once 'config.php';
 
-$tenant = isset($_GET['t']) ? $_GET['t'] : null;
+$tenant = getTenant();
 
 if (!$tenant) {
-    die("Tenant no especificado.");
+    die("Organizacion no especificada.");
 }
 
 $db = getDB();
