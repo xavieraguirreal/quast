@@ -1,18 +1,19 @@
 <?php
 require_once 'config.php';
 
-// Claves de acceso
-define('DOWNLOAD_KEYS', ['estef170226lib', 'sajur110426']);
-
-$tenant = isset($_GET['t']) ? $_GET['t'] : 'aldp';
+$tenant = getTenant('aldp');
 $codigo = isset($_GET['e']) ? $_GET['e'] : 'condiciones-detencion-2026';
 $clave = isset($_POST['clave']) ? $_POST['clave'] : '';
 $formato = isset($_POST['formato']) ? $_POST['formato'] : 'csv';
 $error = '';
 $authenticated = false;
 
-// Verificar clave
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+// Verificar sesion admin o clave
+session_start();
+if (isset($_SESSION['quast_admin']) && $_SESSION['quast_admin']
+    && (time() - ($_SESSION['quast_admin_time'] ?? 0)) < 3600) {
+    $authenticated = true;
+} elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (in_array($clave, DOWNLOAD_KEYS)) {
         $authenticated = true;
     } else {
