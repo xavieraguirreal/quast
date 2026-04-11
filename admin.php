@@ -28,6 +28,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
 
 $db = getDB();
 
+// Procesar toggle de estado (activar/cerrar)
+if ($authenticated && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_estado'])) {
+    $nuevoEstado = $_POST['toggle_estado'] === 'cerrar' ? 0 : 1;
+    $stmt = $db->prepare("UPDATE encuestas SET activa = ? WHERE tenant_slug = ? AND codigo = ?");
+    $stmt->execute([$nuevoEstado, $tenant, $codigo]);
+}
+
 // Obtener encuesta
 $stmt = $db->prepare("
     SELECT e.*, t.nombre as tenant_nombre
@@ -271,6 +278,81 @@ $encuestaUrl = $isCustom
             background: #dcfce7;
         }
 
+        .btn-pdf {
+            background: #fef2f2;
+            color: #dc2626;
+            border: 1px solid #fecaca;
+        }
+
+        .btn-pdf:hover {
+            background: #fee2e2;
+        }
+
+        .toggle-estado {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            padding: 16px 20px;
+            background: var(--card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .estado-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .estado-badge.activa {
+            background: rgba(16, 185, 129, 0.1);
+            color: #059669;
+        }
+
+        .estado-badge.cerrada {
+            background: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+        }
+
+        .btn-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+
+        .btn-toggle svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .btn-cerrar {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        .btn-cerrar:hover {
+            background: #fee2e2;
+        }
+
+        .btn-activar {
+            background: #f0fdf4;
+            color: #16a34a;
+        }
+
+        .btn-activar:hover {
+            background: #dcfce7;
+        }
+
         .btn-back {
             background: var(--bg);
             color: var(--text-light);
@@ -503,8 +585,33 @@ $encuestaUrl = $isCustom
             </a>
             <a href="<?= $baseUrl ?>/descargar.php?t=<?= htmlspecialchars($tenant) ?>&e=<?= htmlspecialchars($codigo) ?>" class="btn-csv">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                Descargar CSV
+                CSV
             </a>
+            <a href="<?= $baseUrl ?>/descargar_pdf.php?t=<?= htmlspecialchars($tenant) ?>&e=<?= htmlspecialchars($codigo) ?>" class="btn-pdf">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                PDF
+            </a>
+        </div>
+
+        <!-- Toggle estado -->
+        <div class="toggle-estado">
+            <form method="POST" style="display:inline">
+                <?php if ($encuesta['activa']): ?>
+                    <span class="estado-badge activa">Activa</span>
+                    <input type="hidden" name="toggle_estado" value="cerrar">
+                    <button type="submit" class="btn-toggle btn-cerrar" onclick="return confirm('Cerrar la encuesta? No se podran enviar mas respuestas.')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                        Cerrar encuesta
+                    </button>
+                <?php else: ?>
+                    <span class="estado-badge cerrada">Cerrada</span>
+                    <input type="hidden" name="toggle_estado" value="activar">
+                    <button type="submit" class="btn-toggle btn-activar">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                        Activar encuesta
+                    </button>
+                <?php endif; ?>
+            </form>
         </div>
 
         <?php if (count($respuestasData) > 0): ?>
