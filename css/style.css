@@ -43,10 +43,37 @@
     letter-spacing: -0.5px;
 }
 
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
 .header-tenant {
     font-size: 0.85rem;
     opacity: 0.85;
     font-weight: 500;
+}
+
+.header-download {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    color: rgba(255,255,255,0.7);
+    transition: all 0.2s;
+}
+
+.header-download:hover {
+    background: rgba(255,255,255,0.15);
+    color: white;
+}
+
+.header-download svg {
+    width: 18px;
+    height: 18px;
 }
 
 /* Footer */
