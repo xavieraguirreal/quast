@@ -367,6 +367,7 @@ $baseUrl = rtrim(dirname($_SERVER["SCRIPT_NAME"]), "/");
                 <div class="stat-number"><?= $totalRespuestas ?></div>
                 <div class="stat-label">Respuestas totales</div>
             </div>
+            <?php if (count($edades) > 0): ?>
             <div class="stat-card">
                 <div class="stat-number"><?= $edadPromedio ?></div>
                 <div class="stat-label">Edad promedio</div>
@@ -379,6 +380,7 @@ $baseUrl = rtrim(dirname($_SERVER["SCRIPT_NAME"]), "/");
                 <div class="stat-number"><?= $edadMax ?></div>
                 <div class="stat-label">Edad máxima</div>
             </div>
+            <?php endif; ?>
         </div>
 
         <?php
