@@ -1,8 +1,8 @@
 <?php
 require_once 'config.php';
 
-// Clave de acceso
-define('DOWNLOAD_KEY', 'estef170226lib');
+// Claves de acceso
+define('DOWNLOAD_KEYS', ['estef170226lib', 'sajur110426']);
 
 $tenant = isset($_GET['t']) ? $_GET['t'] : 'aldp';
 $codigo = isset($_GET['e']) ? $_GET['e'] : 'condiciones-detencion-2026';
@@ -13,7 +13,7 @@ $authenticated = false;
 
 // Verificar clave
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if ($clave === DOWNLOAD_KEY) {
+    if (in_array($clave, DOWNLOAD_KEYS)) {
         $authenticated = true;
     } else {
         $error = 'Clave incorrecta';
