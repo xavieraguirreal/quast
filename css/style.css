@@ -69,6 +69,23 @@
     text-decoration: underline;
 }
 
+/* Edit banner (respuesta previa detectada) */
+.edit-banner {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(16, 185, 129, 0.1));
+    border: 2px solid var(--primary-light);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    margin-bottom: 16px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--text);
+    animation: slideDown 0.3s ease;
+}
+
+.edit-banner strong {
+    color: var(--primary);
+}
+
 /* Conditional questions */
 .question[data-depends-on] {
     border-left: 3px solid var(--primary-light);

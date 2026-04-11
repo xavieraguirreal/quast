@@ -1,6 +1,7 @@
 // Variables globales
 let currentSection = 0;
 let totalSections = 0;
+let existingResponseId = null; // Para actualizar en vez de crear
 
 document.addEventListener('DOMContentLoaded', function() {
     const sections = document.querySelectorAll('.section');
@@ -38,6 +39,16 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Detectar selección de nombre para cargar respuestas previas
+    document.querySelectorAll('select').forEach(select => {
+        select.addEventListener('change', function() {
+            const question = this.closest('.question');
+            if (question && question.dataset.codigo === 'nombre_integrante') {
+                checkPreviousResponse(this.value);
+            }
+        });
+    });
+
     // Form submit
     document.getElementById('survey-form').addEventListener('submit', handleSubmit);
 
@@ -60,6 +71,120 @@ function startSurvey() {
     document.getElementById('intro-screen').classList.remove('active');
     document.getElementById('survey-form').classList.add('active');
     window.scrollTo(0, 0);
+}
+
+async function checkPreviousResponse(opcionId) {
+    if (!opcionId) return;
+
+    const encuestaId = document.getElementById('survey-form').dataset.encuestaId;
+
+    try {
+        const response = await fetch(
+            BASE_URL + '/api/check_response.php?encuesta_id=' + encuestaId + '&opcion_id=' + opcionId
+        );
+        const result = await response.json();
+
+        // Remover banner previo si existe
+        const oldBanner = document.querySelector('.edit-banner');
+        if (oldBanner) oldBanner.remove();
+
+        if (result.success && result.exists) {
+            existingResponseId = result.respuesta_id;
+
+            // Mostrar banner informativo
+            const section = document.querySelector('.section[data-section="0"]');
+            const banner = document.createElement('div');
+            banner.className = 'edit-banner';
+            banner.innerHTML = '<strong>Ya respondiste esta encuesta.</strong> Podes revisar y modificar tus respuestas.';
+            section.querySelector('.questions').prepend(banner);
+
+            // Cambiar texto del botón de envío
+            const submitBtn = document.querySelector('.btn-submit');
+            if (submitBtn) {
+                submitBtn.innerHTML = 'Actualizar Respuestas <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>';
+            }
+
+            // Poblar formulario con respuestas previas
+            populateForm(result.respuestas);
+        } else {
+            existingResponseId = null;
+            // Limpiar formulario si cambia de persona
+            clearForm();
+
+            // Restaurar botón
+            const submitBtn = document.querySelector('.btn-submit');
+            if (submitBtn) {
+                submitBtn.innerHTML = 'Enviar Encuesta <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>';
+            }
+        }
+    } catch (error) {
+        console.error('Error verificando respuesta previa:', error);
+    }
+}
+
+function populateForm(respuestas) {
+    // Primero limpiar todo (excepto el select de nombre)
+    clearForm();
+
+    for (const [preguntaId, data] of Object.entries(respuestas)) {
+        const question = document.querySelector(`.question[data-pregunta-id="${preguntaId}"]`);
+        if (!question) continue;
+
+        const tipo = question.dataset.tipo;
+
+        if (tipo === 'radio' && data.opciones.length > 0) {
+            const radio = question.querySelector(`input[type="radio"][value="${data.opciones[0]}"]`);
+            if (radio) {
+                radio.checked = true;
+                // Disparar depends_on
+                handleDependsOn(radio);
+            }
+        } else if (tipo === 'checkbox' && data.opciones.length > 0) {
+            data.opciones.forEach(opId => {
+                const cb = question.querySelector(`input[type="checkbox"][value="${opId}"]`);
+                if (cb) {
+                    cb.checked = true;
+                    // Habilitar texto adicional si aplica
+                    const textoInput = cb.closest('.option-card').querySelector('.texto-adicional');
+                    if (textoInput) {
+                        textoInput.disabled = false;
+                        if (data.textos_adicionales && data.textos_adicionales[opId]) {
+                            textoInput.value = data.textos_adicionales[opId];
+                        }
+                    }
+                }
+            });
+            // Disparar depends_on para el último checkbox
+            const lastCb = question.querySelector('input[type="checkbox"]:checked');
+            if (lastCb) handleDependsOn(lastCb);
+        } else if (tipo === 'select' && data.opciones.length > 0) {
+            const select = question.querySelector('select');
+            if (select) select.value = data.opciones[0];
+        } else if ((tipo === 'text' || tipo === 'number') && data.valor !== null) {
+            const input = question.querySelector(`input[name="pregunta_${preguntaId}"]`);
+            if (input) input.value = data.valor;
+        } else if (tipo === 'textarea' && data.valor !== null) {
+            const textarea = question.querySelector(`textarea[name="pregunta_${preguntaId}"]`);
+            if (textarea) textarea.value = data.valor;
+        }
+    }
+}
+
+function clearForm() {
+    // Limpiar todo excepto el select de nombre_integrante
+    document.querySelectorAll('.question').forEach(q => {
+        if (q.dataset.codigo === 'nombre_integrante') return;
+
+        q.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(i => i.checked = false);
+        q.querySelectorAll('input[type="text"], input[type="number"], textarea').forEach(i => i.value = '');
+        q.querySelectorAll('select').forEach(s => s.value = '');
+        q.querySelectorAll('.texto-adicional').forEach(t => { t.value = ''; t.disabled = true; });
+    });
+
+    // Ocultar preguntas condicionales
+    document.querySelectorAll('[data-depends-on]').forEach(dep => {
+        dep.style.display = 'none';
+    });
 }
 
 function nextSection() {
@@ -111,6 +236,9 @@ function validateSection(section) {
 
         const tipo = q.dataset.tipo;
         const preguntaId = q.dataset.preguntaId;
+
+        // No validar preguntas ocultas (depends_on no activo)
+        if (q.style.display === 'none') return;
 
         // Verificar si es requerida
         const isRequired = q.querySelector('[required]') !== null ||
@@ -197,6 +325,11 @@ async function handleSubmit(e) {
     const formData = new FormData(e.target);
     formData.append('encuesta_id', e.target.dataset.encuestaId);
 
+    // Si es actualización, enviar el ID existente
+    if (existingResponseId) {
+        formData.append('respuesta_id', existingResponseId);
+    }
+
     try {
         const response = await fetch(BASE_URL + '/api/submit.php', {
             method: 'POST',
@@ -207,7 +340,15 @@ async function handleSubmit(e) {
 
         if (result.success) {
             document.getElementById('survey-form').classList.remove('active');
-            document.getElementById('thank-you-screen').classList.add('active');
+
+            // Cambiar mensaje de agradecimiento si es actualización
+            const thankYou = document.getElementById('thank-you-screen');
+            if (existingResponseId) {
+                thankYou.querySelector('h1').textContent = 'Respuestas actualizadas';
+                thankYou.querySelector('p').textContent = 'Tus respuestas fueron modificadas correctamente.';
+            }
+
+            thankYou.classList.add('active');
         } else {
             alert('Error al enviar: ' + (result.error || 'Intentá de nuevo'));
             submitBtn.classList.remove('loading');

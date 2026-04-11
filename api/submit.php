@@ -27,17 +27,40 @@ try {
         throw new Exception('Encuesta no encontrada o no activa');
     }
 
-    // Crear registro de respuesta
-    $uuid = generateUUID();
+    // Verificar si es una actualización
+    $respuestaIdExistente = filter_input(INPUT_POST, 'respuesta_id', FILTER_VALIDATE_INT);
     $ipHash = hashIP($_SERVER['REMOTE_ADDR'] ?? '');
     $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? '';
 
-    $stmt = $db->prepare("
-        INSERT INTO respuestas (encuesta_id, uuid, ip_hash, user_agent, completada, completed_at)
-        VALUES (?, ?, ?, ?, 1, NOW())
-    ");
-    $stmt->execute([$encuestaId, $uuid, $ipHash, $userAgent]);
-    $respuestaId = $db->lastInsertId();
+    if ($respuestaIdExistente) {
+        // Actualizar: verificar que la respuesta existe y pertenece a esta encuesta
+        $stmt = $db->prepare("SELECT id FROM respuestas WHERE id = ? AND encuesta_id = ?");
+        $stmt->execute([$respuestaIdExistente, $encuestaId]);
+        if (!$stmt->fetch()) {
+            throw new Exception('Respuesta no encontrada');
+        }
+
+        // Borrar respuestas anteriores
+        $stmt = $db->prepare("DELETE FROM respuestas_detalle WHERE respuesta_id = ?");
+        $stmt->execute([$respuestaIdExistente]);
+
+        // Actualizar timestamp
+        $stmt = $db->prepare("UPDATE respuestas SET completed_at = NOW(), ip_hash = ?, user_agent = ? WHERE id = ?");
+        $stmt->execute([$ipHash, $userAgent, $respuestaIdExistente]);
+
+        $respuestaId = $respuestaIdExistente;
+        $uuid = null;
+    } else {
+        // Crear nuevo registro de respuesta
+        $uuid = generateUUID();
+
+        $stmt = $db->prepare("
+            INSERT INTO respuestas (encuesta_id, uuid, ip_hash, user_agent, completada, completed_at)
+            VALUES (?, ?, ?, ?, 1, NOW())
+        ");
+        $stmt->execute([$encuestaId, $uuid, $ipHash, $userAgent]);
+        $respuestaId = $db->lastInsertId();
+    }
 
     // Obtener todas las preguntas de la encuesta
     $stmt = $db->prepare("
