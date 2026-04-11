@@ -423,12 +423,17 @@ body {
 .option-indicator {
     width: 22px;
     height: 22px;
-    border: 2px solid var(--border);
+    border: 2px solid #94a3b8;
+    background: #ffffff;
     border-radius: 50%;
     flex-shrink: 0;
     position: relative;
     transition: all 0.2s;
     margin-top: 1px;
+}
+
+.option-card:hover .option-indicator {
+    border-color: #64748b;
 }
 
 .option-card.checkbox .option-indicator {
@@ -644,7 +649,18 @@ body {
     }
 
     .option-card {
-        padding: 12px 14px;
+        padding: 14px 14px;
+    }
+
+    .option-indicator {
+        width: 24px;
+        height: 24px;
+        border-width: 2.5px;
+    }
+
+    .option-card.checkbox:has(input:checked) .option-indicator::after {
+        width: 14px;
+        height: 14px;
     }
 
     .btn-primary, .btn-secondary {
@@ -676,6 +692,15 @@ body {
 
     .option-card:hover {
         background: #334155;
+    }
+
+    .option-indicator {
+        border-color: #64748b;
+        background: #0f172a;
+    }
+
+    .option-card:hover .option-indicator {
+        border-color: #94a3b8;
     }
 
     .input-field {

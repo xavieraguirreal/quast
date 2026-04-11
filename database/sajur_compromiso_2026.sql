@@ -78,7 +78,7 @@ INSERT INTO opciones (pregunta_id, valor, texto, orden) VALUES
 
 -- Pregunta 1b: Tiempo - horas semanales
 INSERT INTO preguntas (seccion_id, codigo, texto, tipo, requerida, orden, config)
-VALUES (@seccion_id, 'tiempo_horas', 'Cuantas horas semanales aprox?', 'radio', 0, 2, '{"depends_on": "tipos_aporte:tiempo"}');
+VALUES (@seccion_id, 'tiempo_horas', 'Tiempo - Cuantas horas semanales aprox?', 'radio', 0, 2, '{"depends_on": "tipos_aporte:tiempo"}');
 
 SET @pregunta_id = LAST_INSERT_ID();
 
@@ -90,7 +90,7 @@ INSERT INTO opciones (pregunta_id, valor, texto, orden) VALUES
 
 -- Pregunta 1c: Tiempo - franja horaria
 INSERT INTO preguntas (seccion_id, codigo, texto, tipo, requerida, orden, config)
-VALUES (@seccion_id, 'tiempo_franja', 'En que franja horaria?', 'checkbox', 0, 3, '{"depends_on": "tipos_aporte:tiempo"}');
+VALUES (@seccion_id, 'tiempo_franja', 'Tiempo - En que franja horaria?', 'checkbox', 0, 3, '{"depends_on": "tipos_aporte:tiempo"}');
 
 SET @pregunta_id = LAST_INSERT_ID();
 
@@ -102,15 +102,15 @@ INSERT INTO opciones (pregunta_id, valor, texto, orden) VALUES
 
 -- Pregunta 1d: Trabajo profesional - tareas concretas
 INSERT INTO preguntas (seccion_id, codigo, texto, tipo, requerida, orden, config)
-VALUES (@seccion_id, 'profesional_tareas', 'En que tipo de tareas concretas?', 'textarea', 0, 4, '{"placeholder": "Ej: redaccion de documentos, capacitaciones, asesoramiento legal...", "rows": 2, "depends_on": "tipos_aporte:trabajo_profesional"}');
+VALUES (@seccion_id, 'profesional_tareas', 'Trabajo profesional - En que tipo de tareas concretas?', 'textarea', 0, 4, '{"placeholder": "Ej: redaccion de documentos, capacitaciones, asesoramiento legal...", "rows": 2, "depends_on": "tipos_aporte:trabajo_profesional"}');
 
 -- Pregunta 1e: Trabajo voluntario - areas de interes
 INSERT INTO preguntas (seccion_id, codigo, texto, tipo, requerida, orden, config)
-VALUES (@seccion_id, 'voluntario_areas', 'Que areas te interesan?', 'textarea', 0, 5, '{"placeholder": "Ej: comunicacion, logistica, eventos...", "rows": 2, "depends_on": "tipos_aporte:trabajo_voluntario"}');
+VALUES (@seccion_id, 'voluntario_areas', 'Trabajo voluntario - Que areas te interesan?', 'textarea', 0, 5, '{"placeholder": "Ej: comunicacion, logistica, eventos...", "rows": 2, "depends_on": "tipos_aporte:trabajo_voluntario"}');
 
 -- Pregunta 1f: Difusion - canales
 INSERT INTO preguntas (seccion_id, codigo, texto, tipo, requerida, orden, config)
-VALUES (@seccion_id, 'difusion_canales', 'Por que canal?', 'checkbox', 0, 6, '{"depends_on": "tipos_aporte:difusion"}');
+VALUES (@seccion_id, 'difusion_canales', 'Difusion - Por que canal?', 'checkbox', 0, 6, '{"depends_on": "tipos_aporte:difusion"}');
 
 SET @pregunta_id = LAST_INSERT_ID();
 
@@ -121,7 +121,7 @@ INSERT INTO opciones (pregunta_id, valor, texto, orden) VALUES
 
 -- Pregunta 1g: Contactos - sectores
 INSERT INTO preguntas (seccion_id, codigo, texto, tipo, requerida, orden, config)
-VALUES (@seccion_id, 'contactos_sectores', 'Con que sectores?', 'checkbox', 0, 7, '{"depends_on": "tipos_aporte:contactos"}');
+VALUES (@seccion_id, 'contactos_sectores', 'Contactos / vinculos - Con que sectores?', 'checkbox', 0, 7, '{"depends_on": "tipos_aporte:contactos"}');
 
 SET @pregunta_id = LAST_INSERT_ID();
 
@@ -134,11 +134,11 @@ INSERT INTO opciones (pregunta_id, valor, texto, orden) VALUES
 
 -- Pregunta 1h: Ideas o proyectos
 INSERT INTO preguntas (seccion_id, codigo, texto, tipo, requerida, orden, config)
-VALUES (@seccion_id, 'ideas_proyectos_desc', 'Contanos en una linea', 'text', 0, 8, '{"placeholder": "Tu idea o proyecto...", "depends_on": "tipos_aporte:ideas_proyectos"}');
+VALUES (@seccion_id, 'ideas_proyectos_desc', 'Ideas o proyectos propios - Contanos en una linea', 'text', 0, 8, '{"placeholder": "Tu idea o proyecto...", "depends_on": "tipos_aporte:ideas_proyectos"}');
 
 -- Pregunta 1i: Traer personas
 INSERT INTO preguntas (seccion_id, codigo, texto, tipo, requerida, orden, config)
-VALUES (@seccion_id, 'traer_personas_cant', 'Cuantas, aprox?', 'radio', 0, 9, '{"depends_on": "tipos_aporte:traer_personas"}');
+VALUES (@seccion_id, 'traer_personas_cant', 'Traer nuevas personas - Cuantas, aprox?', 'radio', 0, 9, '{"depends_on": "tipos_aporte:traer_personas"}');
 
 SET @pregunta_id = LAST_INSERT_ID();
 
@@ -149,7 +149,7 @@ INSERT INTO opciones (pregunta_id, valor, texto, orden) VALUES
 
 -- Pregunta 1j: Recursos materiales
 INSERT INTO preguntas (seccion_id, codigo, texto, tipo, requerida, orden, config)
-VALUES (@seccion_id, 'recursos_detalle', 'Especifica cuales', 'text', 0, 10, '{"placeholder": "Ej: sala de reuniones, proyector, vehiculo...", "depends_on": "tipos_aporte:recursos_materiales"}');
+VALUES (@seccion_id, 'recursos_detalle', 'Recursos materiales - Especifica cuales', 'text', 0, 10, '{"placeholder": "Ej: sala de reuniones, proyector, vehiculo...", "depends_on": "tipos_aporte:recursos_materiales"}');
 
 -- =============================================
 -- SECCION 2: QUE ESPERAS DE SAJUR
