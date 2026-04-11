@@ -52,4 +52,9 @@ UPDATE preguntas SET
     config = '{"placeholder": "Ej: sala de reuniones, proyector, vehiculo...", "depends_on": "tipos_aporte:recursos_materiales"}'
 WHERE codigo = 'recursos_detalle';
 
-SELECT 'depends_on actualizado en todas las subpreguntas' as resultado;
+-- Lenguaje inclusivo en instrucciones
+UPDATE encuestas SET
+    instrucciones = 'Esta encuesta es para los y las integrantes actuales de SAJuR.\n\nTe va a llevar menos de 5 minutos.\n\nTus respuestas nos ayudan a organizar mejor el equipo y aprovechar lo que cada persona puede dar.\n\nNo hay respuestas correctas ni incorrectas: lo importante es que seas sincero/a.'
+WHERE codigo = 'compromiso-2026' AND tenant_slug = 'sajur';
+
+SELECT 'depends_on y lenguaje inclusivo actualizados' as resultado;

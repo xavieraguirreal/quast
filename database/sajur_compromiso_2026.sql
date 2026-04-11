@@ -21,7 +21,7 @@ VALUES (
     'compromiso-2026',
     'SAJuR - Aportes, Expectativas y Compromiso',
     'Encuesta interna para conocer qué podés aportar, qué esperás y cómo te gustaría participar en SAJuR durante los próximos meses.',
-    'Esta encuesta es para los integrantes actuales de SAJuR.\n\nTe va a llevar menos de 5 minutos.\n\nTus respuestas nos ayudan a organizar mejor el equipo y aprovechar lo que cada uno puede dar.\n\nNo hay respuestas correctas ni incorrectas: lo importante es que seas sincero/a.',
+    'Esta encuesta es para los y las integrantes actuales de SAJuR.\n\nTe va a llevar menos de 5 minutos.\n\nTus respuestas nos ayudan a organizar mejor el equipo y aprovechar lo que cada persona puede dar.\n\nNo hay respuestas correctas ni incorrectas: lo importante es que seas sincero/a.',
     1
 );
 
