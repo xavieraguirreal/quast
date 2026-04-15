@@ -4,18 +4,31 @@ require_once 'config.php';
 $tenant = getTenant();
 
 if (!$tenant) {
-    die("Organizacion no especificada.");
+    $baseUrl = rtrim(dirname($_SERVER["SCRIPT_NAME"]), "/");
+    include __DIR__ . '/error_page.php';
+    showErrorPage($baseUrl, 'no_tenant');
+    exit;
 }
 
 $db = getDB();
 
 // Obtener tenant
-$stmt = $db->prepare("SELECT * FROM tenants WHERE slug = ? AND activo = 1");
+$stmt = $db->prepare("SELECT * FROM tenants WHERE slug = ?");
 $stmt->execute([$tenant]);
 $tenantData = $stmt->fetch();
 
 if (!$tenantData) {
-    die("Organizacion no encontrada.");
+    $baseUrl = rtrim(dirname($_SERVER["SCRIPT_NAME"]), "/");
+    include __DIR__ . '/error_page.php';
+    showErrorPage($baseUrl, 'no_tenant');
+    exit;
+}
+
+if (!$tenantData['activo']) {
+    $baseUrl = rtrim(dirname($_SERVER["SCRIPT_NAME"]), "/");
+    include __DIR__ . '/error_page.php';
+    showErrorPage($baseUrl, 'org_inactiva', $tenantData['nombre']);
+    exit;
 }
 
 // Obtener encuestas activas

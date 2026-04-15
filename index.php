@@ -7,18 +7,95 @@ $codigo = isset($_GET['e']) ? $_GET['e'] : 'condiciones-detencion-2026';
 
 $db = getDB();
 
-// Obtener encuesta
+// Obtener encuesta (sin filtrar por activa para distinguir cerrada vs inexistente)
 $stmt = $db->prepare("
     SELECT e.*, t.nombre as tenant_nombre
     FROM encuestas e
     JOIN tenants t ON e.tenant_slug = t.slug
-    WHERE e.tenant_slug = ? AND e.codigo = ? AND e.activa = 1
+    WHERE e.tenant_slug = ? AND e.codigo = ?
 ");
 $stmt->execute([$tenant, $codigo]);
 $encuesta = $stmt->fetch();
 
-if (!$encuesta) {
-    die("Encuesta no encontrada o no activa.");
+if (!$encuesta || !$encuesta['activa']) {
+    $baseUrl = rtrim(dirname($_SERVER["SCRIPT_NAME"]), "/");
+    $cerrada = $encuesta && !$encuesta['activa'];
+    ?>
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="theme-color" content="#6366f1">
+        <title><?= $cerrada ? htmlspecialchars($encuesta['titulo']) . ' — Cerrada' : 'Encuesta no encontrada' ?></title>
+        <link rel="icon" type="image/svg+xml" href="<?= $baseUrl ?>/favicon.svg">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="<?= $baseUrl ?>/css/style.css">
+    </head>
+    <body data-tenant="<?= htmlspecialchars($tenant) ?>">
+        <header class="quast-header">
+            <div class="header-inner">
+                <span class="header-brand">Quast</span>
+                <?php if ($cerrada): ?>
+                <span class="header-tenant"><?= htmlspecialchars($encuesta['tenant_nombre']) ?></span>
+                <?php endif; ?>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="screen active" style="justify-content:center; align-items:center; padding:24px; text-align:center;">
+                <div style="max-width:440px;">
+                    <div style="width:80px; height:80px; border-radius:50%; margin:0 auto 24px; display:flex; align-items:center; justify-content:center;
+                        background:<?= $cerrada ? 'linear-gradient(135deg, #f59e0b, #d97706)' : 'linear-gradient(135deg, #94a3b8, #64748b)' ?>;">
+                        <?php if ($cerrada): ?>
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>
+                        </svg>
+                        <?php else: ?>
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+                        </svg>
+                        <?php endif; ?>
+                    </div>
+
+                    <?php if ($cerrada): ?>
+                    <h1 style="font-size:1.5rem; font-weight:700; margin-bottom:12px; color:var(--text);">Encuesta cerrada</h1>
+                    <p style="color:var(--text-light); font-size:1rem; margin-bottom:8px;">
+                        <strong><?= htmlspecialchars($encuesta['titulo']) ?></strong>
+                    </p>
+                    <p style="color:var(--text-light); font-size:0.9rem; margin-bottom:8px;">
+                        Esta encuesta ya no está recibiendo respuestas.
+                    </p>
+                    <?php if ($encuesta['updated_at']): ?>
+                    <p style="color:var(--text-light); font-size:0.85rem; margin-bottom:24px;">
+                        Cerrada el <?= date('d/m/Y', strtotime($encuesta['updated_at'])) ?>
+                    </p>
+                    <?php endif; ?>
+                    <p style="color:var(--text-light); font-size:0.85rem;">
+                        Si tenés consultas, contactá a la organización responsable.
+                    </p>
+                    <?php else: ?>
+                    <h1 style="font-size:1.5rem; font-weight:700; margin-bottom:12px; color:var(--text);">Encuesta no encontrada</h1>
+                    <p style="color:var(--text-light); font-size:0.9rem; margin-bottom:24px;">
+                        La encuesta que buscás no existe o la dirección es incorrecta.
+                    </p>
+                    <p style="color:var(--text-light); font-size:0.85rem;">
+                        Verificá el enlace e intentá nuevamente.
+                    </p>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+
+        <footer class="quast-footer">
+            <span>Quast &middot; Encuestas verificadas por <a href="https://verumax.com" target="_blank" rel="noopener">VERUMax</a></span>
+        </footer>
+    </body>
+    </html>
+    <?php
+    exit;
 }
 
 // Obtener secciones con preguntas y opciones
